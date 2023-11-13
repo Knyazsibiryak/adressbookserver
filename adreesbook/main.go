@@ -1,13 +1,16 @@
 package main
 
 import (
-	"adreesbook\controller\stdhttp"
-	"adreesbook\psg"
-	"net\http"
+	"controller/stdhttp"
+	"gate/psg"
+	"net/http"
 )
 
 func main() {
-	db := psg.NewPsg("psql://user:password@localhost/dbname", "login", "password")
+	db, err := psg.NewPsg("psql://postgres: kmyaz1234@localhost:5432/adressbook", "postgres", "knyaz1234")
+	if err != nil {
+		panic(err)
+	}
 	controller := stdhttp.NewController(":8080", db)
 
 	http.HandleFunc("/record/add", controller.RecordAdd)
@@ -15,5 +18,8 @@ func main() {
 	http.HandleFunc("/record/update", controller.RecordUpdate)
 	http.HandleFunc("/record/delete", controller.RecordDeleteByPhone)
 
-	http.ListenAndServe(":8080", nil)
+	err = http.ListenAndServe(":8080", nil)
+	if err != nil {
+		panic(err)
+	}
 }

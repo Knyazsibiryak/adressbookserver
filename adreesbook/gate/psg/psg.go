@@ -12,8 +12,6 @@ type Psg struct {
 	conn *pgxpool.Pool
 }
 
-//postgresql://192.168.1.101:5432/test
-
 func NewPsg(dburl string, login, pass string) (psg *Psg, err error) {
 	defer func() { err = errors.Wrap(err, "postgres NewPsg()") }()
 
